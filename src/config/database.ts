@@ -27,7 +27,6 @@ redisClient.on("error", (err) => console.error("❌ Redis Client Error:", err));
 
 export const connectRedis = async () => {
   try {
-    console.log(process.env.PASSWORD,process.env.USERNAME)
     await redisClient.connect();
     console.log("Redis Connected");
   } catch (error) {
