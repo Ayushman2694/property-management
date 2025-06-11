@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { createClient } from "redis";
-
+import dotenv from "dotenv";
+dotenv.config();
 // MongoDB Connection
 export const connectDB = async () => {
   try {
@@ -13,12 +14,20 @@ export const connectDB = async () => {
 };
 
 // Redis Connection
-export const redisClient = createClient({ url: process.env.REDIS_URL });
+export const redisClient = createClient({
+  username:"default",
+  password: process.env.PASSWORD,
+  socket: {
+    host: process.env.REDIS_URL!,
+    port:15122,
+  },
+});
 
 redisClient.on("error", (err) => console.error("❌ Redis Client Error:", err));
 
 export const connectRedis = async () => {
   try {
+    console.log(process.env.PASSWORD,process.env.USERNAME)
     await redisClient.connect();
     console.log("Redis Connected");
   } catch (error) {
